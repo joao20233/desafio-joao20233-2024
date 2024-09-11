@@ -1,11 +1,44 @@
-// class RecintosZoo {
+class RecintosZoo {
+    analisaRecintos(animal, quantidade) {
+        if (!animal || quantidade <= 0) {
+            return {
+                erro: quantidade <= 0 ? "Quantidade inválida" : "Animal inválido",
+                recintosViaveis: false
+            };
+        }
 
-//     analisaRecintos(animal, quantidade) {
-//     }
+        const pesoTotal = calcularPesoAnimal(animal, quantidade);
 
-// }
+        if (typeof pesoTotal === 'object' && pesoTotal.erro) {
+            return {
+                erro: pesoTotal.erro,
+                recintosViaveis: false
+            };
+        }
 
-// export { RecintosZoo as RecintosZoo };
+        const recintosDisponiveis = encontrarRecintosParaAnimal(animal, quantidade);
+
+        if (recintosDisponiveis.length === 0) {
+            return {
+                erro: "Não há recinto viável",
+                recintosViaveis: false
+            };
+        }
+
+        const recintosViaveis = recintosDisponiveis.map(recinto => 
+            `Recinto ${recinto.recinto} (espaço livre: ${recinto.espacoLivre} total: ${recintos.find(r => r.numero === recinto.recinto).tamanhoTotal})`
+        );
+
+        return {
+            erro: false,
+            recintosViaveis
+        };
+    }
+}
+
+export { RecintosZoo };
+
+// Funções e dados auxiliares permanecem os mesmos:
 
 const animais = [
     { especie: "LEAO", tamanho: 3, bioma: ["savana"], carnivoro: true },
@@ -17,17 +50,12 @@ const animais = [
 ];
 
 const recintos = [
-    // 7 disponiveis 
     { numero: 1, bioma: ["savana"], tamanhoTotal: 10, animaisExistentes: [{ especie: "MACACO", quantidade: 3 }] },
-    // 5 disponiveis
     { numero: 2, bioma: ["floresta"], tamanhoTotal: 5, animaisExistentes: [] },
-    // 5 disponiveis
     { numero: 3, bioma: ["savana", "rio"], tamanhoTotal: 7, animaisExistentes: [{ especie: "GAZELA", quantidade: 1 }] },
-    // 8 disponiveis
     { numero: 4, bioma: ["rio"], tamanhoTotal: 8, animaisExistentes: [] },
-    // 6 disponiveis
     { numero: 5, bioma: ["savana"], tamanhoTotal: 9, animaisExistentes: [{ especie: "LEAO", quantidade: 1 }] }
-  ];
+];
 
 const disponibilidadeRecintos = [
     { recinto: recintos[0].numero, espacoLivre: recintos[0].tamanhoTotal - recintos[0].animaisExistentes[0].quantidade },
@@ -69,7 +97,6 @@ function calcularPesoAnimal(tipo, quantidade) {
 function encontrarRecintosParaAnimal(tipo, quantidade) {
     const animal = animais.find(animal => animal.especie === tipo.toUpperCase());
 
-    // Se o animal não for encontrado, retorna um erro
     if (!animal) {
         return { erro: "Animal inválido" };
     }
@@ -82,6 +109,5 @@ function encontrarRecintosParaAnimal(tipo, quantidade) {
     return recintosDisponiveis;
 }
 
-// Exemplo de uso:
-const recintosParaAnimais = encontrarRecintosParaAnimal("hipopotamo", 2);
-console.log(recintosParaAnimais);
+const recintosParaLeao = encontrarRecintosParaAnimal("LEAO", 2);
+console.log(recintosParaLeao);
