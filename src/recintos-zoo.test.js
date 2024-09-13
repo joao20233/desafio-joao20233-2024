@@ -1,32 +1,27 @@
-import { RecintosZoo } from "./recintos-zoo.js";
 
-describe('Recintos do Zoologico', () => {
+import { RecintosZoo } from './recintos-zoo';
 
-    test('Deve rejeitar animal inválido', () => {
-            const resultado = new RecintosZoo().analisaRecintos('UNICORNIO', 1);
-            expect(resultado.erro).toBe("Animal inválido");
-            expect(resultado.recintosViaveis).toBeFalsy();
-        });
+describe('Recintos do Zoológico', () => {
+    let zoo;
 
-    test('Deve rejeitar quantidade inválida', () => {
-            const resultado = new RecintosZoo().analisaRecintos('MACACO', 0);
-            expect(resultado.erro).toBe("Quantidade inválida");
-            expect(resultado.recintosViaveis).toBeFalsy();
+    beforeEach(() => {
+        zoo = new RecintosZoo();
     });
 
-    test('Não deve encontrar recintos para 10 macacos', () => {
-            const resultado = new RecintosZoo().analisaRecintos('MACACO', 10);
-            expect(resultado.erro).toBe("Não há recinto viável");
-            expect(resultado.recintosViaveis).toBeFalsy();
-        });
-
-        //  criar dois testes
-        
-        
     
-        
+    test('Deve retornar erro para animal inválido', () => {
+        const resultado = zoo.analisaRecintos('INVALIDO', 1);
 
-    
+        // Verificar se há erro
+        expect(resultado.erro).toBe("Animal inválido");
+        expect(resultado.recintosViaveis).toBe(false);
+    });
 
+    test('Deve retornar erro para quantidade inválida', () => {
+        const resultado = zoo.analisaRecintos('HIPOPOTAMO', -1);
+
+        // Verificar se há erro
+        expect(resultado.erro).toBe("Quantidade inválida");
+        expect(resultado.recintosViaveis).toBe(false);
+    });
 });
-

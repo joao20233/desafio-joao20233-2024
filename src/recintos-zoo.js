@@ -143,3 +143,6 @@ function encontrarRecintosParaAnimal(tipo, quantidade) {
 
 const recintosParaMacaco = encontrarRecintosParaAnimal("macaco", 1);
 console.log(recintosParaMacaco);
+
+
+
